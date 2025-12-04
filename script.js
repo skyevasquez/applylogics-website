@@ -148,4 +148,38 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
         });
     });
+    // Text Scramble Effect
+    const scrambleText = (el) => {
+        const originalText = el.innerText;
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+        let iterations = 0;
+        
+        const interval = setInterval(() => {
+            el.innerText = originalText
+                .split('')
+                .map((letter, index) => {
+                    if (index < iterations) {
+                        return originalText[index];
+                    }
+                    return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join('');
+            
+            if (iterations >= originalText.length) {
+                clearInterval(interval);
+            }
+            
+            iterations += 1 / 3;
+        }, 30);
+    };
+
+    const heroTitle = document.querySelector('.hero-main-title');
+    if (heroTitle) {
+        setTimeout(() => scrambleText(heroTitle), 500);
+    }
+
+    // Add shine effect to buttons
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+        btn.classList.add('shine-hover');
+    });
 });
