@@ -16,7 +16,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="index.html" class="logo-link">
-                    <img src="favicon.png" alt="ApplyLogics Logo" class="logo-icon"> <span class="logo-text">ApplyLogics</span>
+                    <img src="logo.svg" alt="ApplyLogics" class="logo-svg">
                 </a>
             </div>
             <button class="mobile-menu-btn" aria-label="Toggle menu">Menu</button>
@@ -31,70 +31,138 @@
     </nav>
 
     <section id="main-content" class="hero">
+        <!-- Floating cyber elements -->
+        <div class="cyber-grid"></div>
+        <div class="floating-elements">
+            <div class="float-line float-line-1"></div>
+            <div class="float-line float-line-2"></div>
+            <div class="float-line float-line-3"></div>
+            <div class="cyber-circle cyber-circle-1"></div>
+            <div class="cyber-circle cyber-circle-2"></div>
+            <div class="data-stream"></div>
+        </div>
+
         <div class="hero-container">
             <div class="hero-content">
                 <div class="hero-badge">
                     <span class="hero-badge-dot"></span>
-                    Full-Service Technology Company
+                    <span class="badge-text">Full-Service Technology Company</span>
                 </div>
-                <h1 class="hero-main-title">We build Digital Solutions.</h1>
+                <h1 class="hero-main-title">
+                    We build <span class="gradient-text glitch-text" data-text="Digital Solutions">Digital Solutions</span>.
+                </h1>
                 <h2 class="hero-subtitle">End-to-end digital transformation for modern businesses</h2>
-                
+
                 <div class="hero-description">
                     <p>Today, businesses need comprehensive digital solutions to stay competitive. We help organizations modernize their operations, enhance user experiences, and automate processes with cutting-edge technology.</p>
                     <p>From web development to AI automation, ApplyLogics delivers solutions that drive real results.</p>
                 </div>
 
                 <div class="hero-cta">
-                    <a href="contact.html" class="btn-primary">Get Started</a>
-                    <a href="#services" class="btn-secondary">Explore Services</a>
+                    <a href="contact.html" class="btn-primary magnetic-btn">
+                        <span class="btn-text">Get Started</span>
+                        <span class="btn-icon">→</span>
+                    </a>
+                    <a href="#services" class="btn-secondary magnetic-btn">
+                        <span class="btn-text">Explore Services</span>
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="50">50+</span>
+                        <span class="stat-label">Projects Delivered</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="98">98%</span>
+                        <span class="stat-label">Client Satisfaction</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support Available</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- Hero visual side -->
+            <div class="hero-visual">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                        <span class="terminal-title">applylogics.sh</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command typing-text"></span>
+                            <span class="terminal-cursor">_</span>
+                        </div>
+                        <div class="terminal-output"></div>
+                    </div>
+                </div>
+                <div class="code-snippet">
+                    <pre><code><span class="code-keyword">const</span> <span class="code-var">solution</span> = <span class="code-func">await</span> applyLogics.<span class="code-method">transform</span>({
+  <span class="code-prop">business</span>: <span class="code-string">"yours"</span>,
+  <span class="code-prop">tech</span>: [<span class="code-string">"AI"</span>, <span class="code-string">"Web"</span>, <span class="code-string">"Cloud"</span>],
+  <span class="code-prop">result</span>: <span class="code-string">"success"</span>
+});</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll to explore</span>
+            <div class="scroll-line"></div>
         </div>
     </section>
 
     <section id="services" class="value-props">
         <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <p class="section-subtitle">Comprehensive technology solutions tailored to your business needs</p>
+            <h2 class="section-title gsap-reveal">Our Services</h2>
+            <p class="section-subtitle gsap-reveal">Comprehensive technology solutions tailored to your business needs</p>
             
             <div class="value-grid">
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">01</div>
                     <h3>Web Design & Development</h3>
                     <h4>Creating modern, responsive websites</h4>
                     <p>Modern, responsive websites focused on brand identity and user experience. Custom designs that convert visitors into customers.</p>
                 </div>
                 
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">02</div>
                     <h3>Hosting & Server Setup</h3>
                     <h4>Professional setup and management</h4>
                     <p>Secure, reliable hosting solutions with professional setup and ongoing management for optimal performance.</p>
                 </div>
                 
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">03</div>
                     <h3>AI Business Automation</h3>
                     <h4>Intelligent automation solutions</h4>
                     <p>Implementing chatbots and smart workflows to streamline operations and improve business efficiency.</p>
                 </div>
                 
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">04</div>
                     <h3>Technology Consulting</h3>
                     <h4>Strategic guidance and planning</h4>
                     <p>Expert advice on digital infrastructure, solution design, and technology planning for business growth.</p>
                 </div>
                 
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">05</div>
                     <h3>Maintenance & Support</h3>
                     <h4>Ongoing technical support</h4>
                     <p>Regular updates, security patches, monitoring, and technical support to keep your digital assets running smoothly.</p>
                 </div>
                 
-                <div class="value-item reveal">
+                <div class="value-item">
                     <div class="value-number">06</div>
                     <h3>Custom Development</h3>
                     <h4>Tailored software solutions</h4>
@@ -106,29 +174,33 @@
 
     <section id="solutions" class="focus-section">
         <div class="container">
-            <h2>Comprehensive Solutions</h2>
-            <p class="focus-subtitle">End-to-end digital transformation services</p>
+            <h2 class="gsap-reveal">Comprehensive Solutions</h2>
+            <p class="focus-subtitle gsap-reveal">End-to-end digital transformation services</p>
             
             <div class="focus-grid">
-                <div class="focus-item reveal">
+                <a href="digital-presence.html" class="focus-item focus-item-link">
                     <h3>Digital Presence</h3>
                     <p>Complete web presence solutions including design, development, hosting, and ongoing maintenance for maximum impact.</p>
-                </div>
-                
-                <div class="focus-item reveal">
+                    <span class="focus-item-arrow">→</span>
+                </a>
+
+                <a href="business-automation.html" class="focus-item focus-item-link">
                     <h3>Business Automation</h3>
                     <p>Smart automation tools and AI-powered solutions to streamline workflows and reduce manual processes.</p>
-                </div>
-                
-                <div class="focus-item reveal">
+                    <span class="focus-item-arrow">→</span>
+                </a>
+
+                <a href="technical-infrastructure.html" class="focus-item focus-item-link">
                     <h3>Technical Infrastructure</h3>
                     <p>Robust server setup, secure hosting, and reliable technical infrastructure to support your business operations.</p>
-                </div>
-                
-                <div class="focus-item reveal">
+                    <span class="focus-item-arrow">→</span>
+                </a>
+
+                <a href="ongoing-partnership.html" class="focus-item focus-item-link">
                     <h3>Ongoing Partnership</h3>
                     <p>Long-term technology partnership with continuous support, updates, and strategic guidance for sustained growth.</p>
-                </div>
+                    <span class="focus-item-arrow">→</span>
+                </a>
             </div>
         </div>
     </section>
@@ -136,21 +208,47 @@
     <section id="testimonials" class="partners-section">
         <div class="container">
             <h2>Client Testimonials</h2>
-            
-            <div class="testimonial reveal">
-                <p class="testimonial-text">ApplyLogics transformed our digital presence completely. Their team delivered a beautiful, responsive website and set up reliable hosting that has never let us down. The ongoing support is exceptional.</p>
-                <div class="testimonial-author">
-                    <strong>Sarah Johnson</strong>
-                    <span class="author-title">CEO, TechStart Solutions</span>
+            <p class="section-subtitle">What our partners say about working with us</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">ApplyLogics transformed our digital presence completely. Their team delivered a beautiful, responsive website and set up reliable hosting that has never let us down. The ongoing support is exceptional.</p>
+                    <div class="testimonial-author">
+                        <strong>Sarah Johnson</strong>
+                        <span class="author-title">CEO, TechStart Solutions</span>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">The AI automation solutions from ApplyLogics have streamlined our customer service operations. The chatbot handles 80% of our inquiries automatically, and the custom development work was flawless.</p>
+                    <div class="testimonial-author">
+                        <strong>Michael Chen</strong>
+                        <span class="author-title">Operations Director, GrowthCorp</span>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">Working with ApplyLogics on our technical infrastructure was a game-changer. They migrated our entire system to the cloud with zero downtime and improved our performance by 300%. Highly recommended.</p>
+                    <div class="testimonial-author">
+                        <strong>David Park</strong>
+                        <span class="author-title">CTO, InnovateTech</span>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <p class="testimonial-text">From strategy to execution, ApplyLogics delivered beyond our expectations. Their technology consulting helped us identify opportunities we never knew existed. Our ROI increased significantly within months.</p>
+                    <div class="testimonial-author">
+                        <strong>Jennifer Martinez</strong>
+                        <span class="author-title">Founder, ScaleUp Ventures</span>
+                    </div>
                 </div>
             </div>
-            
-            <div class="testimonial reveal">
-                <p class="testimonial-text">The AI automation solutions from ApplyLogics have streamlined our customer service operations. The chatbot handles 80% of our inquiries automatically, and the custom development work was flawless.</p>
-                <div class="testimonial-author">
-                    <strong>Michael Chen</strong>
-                    <span class="author-title">Operations Director, GrowthCorp</span>
-                </div>
+
+            <div class="testimonials-cta">
+                <a href="contact.html" class="btn-primary magnetic-btn">
+                    <span class="btn-text">Start Your Project</span>
+                    <span class="btn-icon">→</span>
+                </a>
             </div>
         </div>
     </section>
@@ -159,7 +257,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ApplyLogics</h3>
+                    <h3 class="glitch-text" data-text="ApplyLogics">ApplyLogics</h3>
                     <p>Full-Service Technology Company</p>
                     <p>End-to-end digital solutions for businesses</p>
                     <div id="contact" style="margin-top: 24px;">
@@ -213,6 +311,15 @@
         </div>
     </footer>
 
+    <!-- GSAP Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- GSAP ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP ScrollToPlugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <!-- GSAP TextPlugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <!-- Custom Scripts -->
     <script src="script.js"></script>
 </body>
 </html>
