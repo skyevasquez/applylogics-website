@@ -25,6 +25,60 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
+    const deviceMemory = navigator.deviceMemory || 8;
+    const cpuCores = navigator.hardwareConcurrency || 8;
+
+    let motionTier = 'full';
+    if (prefersReducedMotion) {
+        motionTier = 'light';
+    } else if (deviceMemory <= 4 || cpuCores <= 4 || isTouch || isSmallScreen) {
+        motionTier = 'medium';
+    }
+
+    const motionProfiles = {
+        full: {
+            cursorFps: 60,
+            enableCursor: true,
+            randomGlitch: true,
+            randomGlitchMin: 6000,
+            randomGlitchRange: 4000,
+            glitchFrameMs: 30,
+            glitchTimeoutMs: 2000,
+            scrambleText: true,
+            parallax: true,
+            circuitAnimation: 'scrub'
+        },
+        medium: {
+            cursorFps: 30,
+            enableCursor: true,
+            randomGlitch: true,
+            randomGlitchMin: 9000,
+            randomGlitchRange: 6000,
+            glitchFrameMs: 45,
+            glitchTimeoutMs: 1600,
+            scrambleText: true,
+            parallax: false,
+            circuitAnimation: 'animate'
+        },
+        light: {
+            cursorFps: 20,
+            enableCursor: false,
+            randomGlitch: false,
+            randomGlitchMin: 12000,
+            randomGlitchRange: 8000,
+            glitchFrameMs: 70,
+            glitchTimeoutMs: 1200,
+            scrambleText: false,
+            parallax: false,
+            circuitAnimation: 'static'
+        }
+    };
+
+    const motionSettings = motionProfiles[motionTier];
+
     // ================================
     // SYSTEM BOOT PRELOADER
     // ================================
@@ -88,8 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // TACTICAL CURSOR
     // ================================
     function initTacticalCursor() {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || 
-            window.matchMedia('(max-width: 1024px)').matches) return;
+        if (!motionSettings.enableCursor) return;
 
         const main = document.createElement('div');
         const follower = document.createElement('div');
@@ -118,16 +171,52 @@ document.addEventListener('DOMContentLoaded', function() {
             mouse.y = e.clientY;
         });
 
-        gsap.ticker.add(() => {
-            const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio()); 
+        const frameInterval = 1000 / motionSettings.cursorFps;
+        let lastFrameTime = 0;
+        let rafId = null;
+        let idleTimeout = null;
+
+        const update = (time) => {
+            if (time - lastFrameTime < frameInterval) {
+                rafId = requestAnimationFrame(update);
+                return;
+            }
+            lastFrameTime = time;
+
+            const dt = 1.0 - Math.pow(1.0 - speed, gsap.ticker.deltaRatio());
             pos.x += (mouse.x - pos.x) * dt;
             pos.y += (mouse.y - pos.y) * dt;
-            
+
             xSet(mouse.x);
             ySet(mouse.y);
             xFollowSet(pos.x);
             yFollowSet(pos.y);
-        });
+
+            rafId = requestAnimationFrame(update);
+        };
+
+        const startLoop = () => {
+            if (rafId) return;
+            rafId = requestAnimationFrame(update);
+        };
+
+        const stopLoop = () => {
+            if (!rafId) return;
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        };
+
+        const resetIdleTimer = () => {
+            if (idleTimeout) clearTimeout(idleTimeout);
+            startLoop();
+            idleTimeout = setTimeout(stopLoop, 1200);
+        };
+
+        window.addEventListener('mousemove', () => {
+            resetIdleTimer();
+        }, { passive: true });
+
+        resetIdleTimer();
 
         // Hover states using delegation
         document.addEventListener('mouseover', (e) => {
@@ -474,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (intervalId) clearInterval(intervalId);
             element.textContent = element.dataset.originalText || originalText;
             activeGlitchElements.delete(element);
-        }, 2000);
+        }, motionSettings.glitchTimeoutMs);
 
         intervalId = setInterval(() => {
             element.textContent = originalText
@@ -493,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 activeGlitchElements.delete(element);
             }
             iterations += 0.5;
-        }, 30);
+        }, motionSettings.glitchFrameMs);
     }
 
     // ================================
@@ -514,6 +603,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     toggleActions: 'play none none reverse'
                 },
                 onStart: () => {
+                    if (!motionSettings.scrambleText) {
+                        if (title.classList.contains('section-title')) {
+                            glitchText(title);
+                        }
+                        return;
+                    }
+
                     gsap.to(title, {
                         duration: 1.2,
                         scrambleText: {
@@ -670,6 +766,25 @@ document.addEventListener('DOMContentLoaded', function() {
             updatePath();
             window.addEventListener('resize', updatePath);
 
+            if (motionSettings.circuitAnimation === 'static') {
+                path.style.strokeDashoffset = 0;
+                continue;
+            }
+
+            if (motionSettings.circuitAnimation === 'animate') {
+                gsap.to(path, {
+                    strokeDashoffset: 0,
+                    duration: 1.2,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: start,
+                        start: "top 80%",
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+                continue;
+            }
+
             gsap.to(path, {
                 strokeDashoffset: 0,
                 scrollTrigger: {
@@ -699,15 +814,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (window.matchMedia('(min-width: 768px)').matches) {
+            gsap.set(card, { transformPerspective: 1000 });
+            const rotateXTo = gsap.quickTo(card, 'rotateX', { duration: 0.2, ease: 'power2.out' });
+            const rotateYTo = gsap.quickTo(card, 'rotateY', { duration: 0.2, ease: 'power2.out' });
+
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const rotateX = (e.clientY - rect.top - rect.height / 2) / 20;
                 const rotateY = (rect.width / 2 - (e.clientX - rect.left)) / 20;
-                gsap.to(card, { rotateX, rotateY, transformPerspective: 1000, duration: 0.2 });
+                rotateXTo(rotateX);
+                rotateYTo(rotateY);
             });
-            card.addEventListener('mouseleave', () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.4 }));
+            card.addEventListener('mouseleave', () => {
+                rotateXTo(0);
+                rotateYTo(0);
+            });
         }
     });
+
+    // ================================
+    // COOKIE BANNER
+    // ================================
+    function initCookieBanner() {
+        if (localStorage.getItem('applylogics_cookies_accepted')) return;
+
+        const banner = document.createElement('div');
+        banner.className = 'cookie-banner';
+        banner.innerHTML = `
+            <div class="cookie-content">
+                <h3>🍪 Cookie Settings</h3>
+                <p>We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking "Accept", you consent to our use of cookies.</p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-accept">Accept</button>
+                <button class="cookie-btn cookie-decline">Decline</button>
+            </div>
+        `;
+        document.body.appendChild(banner);
+
+        setTimeout(() => banner.classList.add('visible'), 1000);
+
+        const acceptBtn = banner.querySelector('.cookie-accept');
+        const declineBtn = banner.querySelector('.cookie-decline');
+
+        acceptBtn.addEventListener('click', () => {
+            localStorage.setItem('applylogics_cookies_accepted', 'true');
+            banner.classList.remove('visible');
+            setTimeout(() => banner.remove(), 500);
+        });
+
+        declineBtn.addEventListener('click', () => {
+            localStorage.setItem('applylogics_cookies_accepted', 'false');
+            banner.classList.remove('visible');
+            setTimeout(() => banner.remove(), 500);
+        });
+    }
 
     // ================================
     // INITIALIZATION
@@ -715,6 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTacticalCursor();
     initPreloader();
     initCircuitLines();
+    initCookieBanner();
 
     // Glitch elements hover
     document.querySelectorAll('.glitch-text').forEach(el => {
@@ -728,20 +890,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Random Glitch
-    setInterval(() => {
-        const targets = document.querySelectorAll('.section-title');
-        if (targets.length && Math.random() > 0.5) {
-            const target = targets[Math.floor(Math.random() * targets.length)];
-            gsap.to(target, { textShadow: '-3px 0 #f92672, 3px 0 #66d9ef', duration: 0.05 });
-            setTimeout(() => gsap.to(target, { textShadow: 'none', duration: 0.05 }), 100);
-        }
-    }, 6000 + Math.random() * 4000);
+    if (motionSettings.randomGlitch) {
+        const scheduleRandomGlitch = () => {
+            const delay = motionSettings.randomGlitchMin + Math.random() * motionSettings.randomGlitchRange;
+            setTimeout(() => {
+                const targets = document.querySelectorAll('.section-title');
+                if (targets.length && Math.random() > 0.5) {
+                    const target = targets[Math.floor(Math.random() * targets.length)];
+                    gsap.to(target, { textShadow: '-3px 0 #f92672, 3px 0 #66d9ef', duration: 0.05 });
+                    setTimeout(() => gsap.to(target, { textShadow: 'none', duration: 0.05 }), 120);
+                }
+                scheduleRandomGlitch();
+            }, delay);
+        };
+        scheduleRandomGlitch();
+    }
 
     // Page reveal
     gsap.from('body', { opacity: 0, duration: 0.4 });
 
     // Parallax
-    if (window.matchMedia('(min-width: 768px)').matches) {
+    if (window.matchMedia('(min-width: 768px)').matches && motionSettings.parallax) {
         gsap.to('.cyber-grid', { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, y: 100, opacity: 0.3 });
         gsap.to('.floating-elements', { scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 }, y: 50 });
     }
