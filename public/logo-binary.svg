@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -60 260 320" width="260" height="320">
+  <defs>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Binary Data Stream Icon -->
+  <g font-family="'Courier New', monospace" font-size="24" font-weight="bold">
+    
+    <!-- Row 1 -->
+    <text x="110" y="0" fill="#a6e22e" opacity="0.4">1</text>
+    
+    <!-- Row 2 -->
+    <text x="95" y="30" fill="#a6e22e" opacity="0.6">0</text>
+    <text x="125" y="30" fill="#66d9ef" opacity="0.6">1</text>
+    
+    <!-- Row 3 -->
+    <text x="80" y="60" fill="#a6e22e" opacity="0.8">1</text>
+    <text x="110" y="60" fill="#66d9ef" opacity="0.2">0</text> <!-- Gap -->
+    <text x="140" y="60" fill="#66d9ef" opacity="0.8">0</text>
+    
+    <!-- Row 4 -->
+    <text x="65" y="90" fill="#a6e22e" filter="url(#glow)">1</text>
+    <text x="95" y="90" fill="#f8f8f2" opacity="0.3">1</text>
+    <text x="125" y="90" fill="#f8f8f2" opacity="0.3">0</text>
+    <text x="155" y="90" fill="#66d9ef" filter="url(#glow)">1</text>
+    
+    <!-- Row 5 -->
+    <text x="50" y="120" fill="#a6e22e">0</text>
+    <text x="80" y="120" fill="#f92672" opacity="0.9">1</text> <!-- Crossbar (Pink) -->
+    <text x="110" y="120" fill="#f92672" opacity="0.9">0</text> <!-- Crossbar (Pink) -->
+    <text x="140" y="120" fill="#f92672" opacity="0.9">1</text> <!-- Crossbar (Pink) -->
+    <text x="170" y="120" fill="#66d9ef">0</text>
+    
+    <!-- Row 6 -->
+    <text x="35" y="150" fill="#a6e22e">1</text>
+    <text x="65" y="150" fill="#f8f8f2" opacity="0.1">0</text>
+    <text x="95" y="150" fill="#f8f8f2" opacity="0.1">1</text>
+    <text x="125" y="150" fill="#f8f8f2" opacity="0.1">0</text>
+    <text x="155" y="150" fill="#f8f8f2" opacity="0.1">1</text>
+    <text x="185" y="150" fill="#66d9ef">1</text>
+    
+    <!-- Row 7 -->
+    <text x="20" y="180" fill="#a6e22e">0</text>
+    <text x="200" y="180" fill="#66d9ef">0</text>
+    
+    <!-- Row 8 -->
+    <text x="5" y="210" fill="#a6e22e" opacity="0.8">1</text>
+    <text x="215" y="210" fill="#66d9ef" opacity="0.8">1</text>
+    
+    <!-- Matrix Stream Rain Effect Background -->
+    <g opacity="0.1">
+       <text x="50" y="-30" fill="#a6e22e">0</text>
+       <text x="170" y="-50" fill="#66d9ef">1</text>
+       <text x="110" y="240" fill="#f8f8f2">0</text>
+    </g>
+    
+  </g>
+</svg>
