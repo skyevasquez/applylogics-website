@@ -1,5 +1,6 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { defaultDescription } from '../content/pages'
+import '../query-client'
 
 export const Route = createRootRoute({
   head: () => ({
