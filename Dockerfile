@@ -1,23 +1,20 @@
-FROM node:22-alpine AS builder
+FROM oven/bun:1 AS build
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
-RUN npm ci
+COPY package.json bun.lock* ./
+RUN bun install --frozen-lockfile
 
 COPY . .
-RUN npm run build
+RUN bun --bun run build
 
-FROM node:22-alpine AS runner
+FROM oven/bun:1-slim AS runtime
 WORKDIR /app
 
-# Copy built artifacts and startup script
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server-start.mjs ./server-start.mjs
-# Install only production deps needed for runtime (srvx is a transitive dep)
-COPY --from=builder /app/node_modules ./node_modules
-
-EXPOSE 3000
-ENV PORT=3000
 ENV NODE_ENV=production
+ENV PORT=8000
 
-CMD ["node", "server-start.mjs"]
+COPY --from=build /app/.output ./.output
+
+EXPOSE 8000
+
+CMD ["bun", ".output/server/index.mjs"]

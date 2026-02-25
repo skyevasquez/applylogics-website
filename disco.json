@@ -1,8 +1,13 @@
 {
-  "version": "1.0",
-  "services": {
-    "web": {
-      "port": 3000
+  "generator": {
+    "root": ".",
+    "dockerfile": "Dockerfile"
+  },
+  "services": [
+    {
+      "name": "web",
+      "type": "web",
+      "port": 8000
     }
-  }
+  ]
 }
